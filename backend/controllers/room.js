@@ -1,12 +1,13 @@
 const { getQuestion } = require('./question');
+const RoomQuestion = require('../models/room_question');
 
 // Socket functions
 const joinRoom = (io, socket) => {
     const topic = socket.request._query['topic'];
     const difficulty = socket.request._query['difficulty'];
-
+    
     const room = `${topic}_${difficulty}`;
-
+    
     socket.data.topic = topic;
     socket.data.difficulty = difficulty;
 
@@ -22,15 +23,18 @@ const leaveRoom = (io, socket) => {
     })
 }
 
-const startRound = async (socket) => {
-    const question = await getQuestion(socket.data.topic, socket.data.difficulty)
+const startRound = async (socket, io) => {
+    const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
     
-    socket.emit("newRound", question);
+    const question = await getQuestion(socket.data.topic, socket.data.difficulty);
+    
+    await RoomQuestion.updateOne({ roomName: roomName }, { questionID: question._id, roomName: roomName }, { upsert: true });
+    
+    io.to(roomName).emit("newRound", question);
 }
 
 const roomSocket = (io) => {
     io.on("connection", (socket) => {
-        console.log("connected");
 
         // Join room
         socket.on("joinRoom", () => {
@@ -39,10 +43,8 @@ const roomSocket = (io) => {
 
         // Start round
         socket.on("startRound", () => {
-            startRound(socket);
+            startRound(socket, io);
         });
-
-
 
         socket.on("disconnect", (socket) => { leaveRoom(io, socket); });
     });
