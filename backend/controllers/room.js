@@ -22,18 +22,25 @@ const leaveRoom = (io, socket) => {
     })
 }
 
-const startRound = (socket) => {
-    getQuestion(socket.data.topic, socket.data.difficulty);
+const startRound = async (socket) => {
+    const question = await getQuestion(socket.data.topic, socket.data.difficulty)
+    
+    socket.emit("newRound", question);
 }
 
 const roomSocket = (io) => {
     io.on("connection", (socket) => {
-        
+        console.log("connected");
+
         // Join room
         socket.on("joinRoom", () => {
             joinRoom(io, socket);
         });
-        
+
+        // Start round
+        socket.on("startRound", () => {
+            startRound(socket);
+        });
 
 
 
