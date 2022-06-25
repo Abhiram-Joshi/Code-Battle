@@ -9,7 +9,7 @@ from selenium.webdriver.common.keys import Keys
 from dbcon import add_to_db, add_topic
 
 from dotenv import dotenv_values
-paths = dotenv_values("../paths.env")
+paths = dotenv_values("paths.env")
 
 options = Options()
 options.add_argument("start-maximized")
