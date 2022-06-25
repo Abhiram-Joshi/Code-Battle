@@ -8,10 +8,13 @@ from selenium.webdriver.common.keys import Keys
 
 from dbcon import add_to_db, add_topic
 
+from dotenv import dotenv_values
+paths = dotenv_values("../paths.env")
+
 options = Options()
 options.add_argument("start-maximized")
 options.add_argument("disable-infobars")
-browser = webdriver.Chrome(service=Service("A:/chromedriver.exe"), chrome_options=options)
+browser = webdriver.Chrome(service=Service(f"{paths['CHROMEDRIVER_PATH']}"), chrome_options=options)
 
 url = "https://www.codechef.com/practice?page=0&limit=20&sort_by=difficulty_rating&sort_order=asc&search=&start_rating=0&end_rating=5000&topic={0}&tags=&group=all"
 
