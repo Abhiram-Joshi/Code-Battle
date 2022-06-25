@@ -14,7 +14,7 @@ exports.createUser = (req, res, next) => {
         let user = new User({
             email: email,
             password: (isOAuth==false) ? hashedPassword : null,
-            uuid: (isOAuth==true) ? uuid : null,
+            uuid: uuid,
             isOAuth: isOAuth,
         });
         user.save();
