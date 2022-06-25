@@ -1,6 +1,7 @@
 from selenium import webdriver
 
-from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.edge.service import Service
+from selenium.webdriver.chrome.options import Options
 
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
@@ -11,6 +12,7 @@ from dotenv import dotenv_values
 paths = dotenv_values("paths.env")
 
 options = webdriver.ChromeOptions()
+# options = Options()
 options.add_argument("start-maximized")
 options.add_argument("disable-infobars")
 browser = webdriver.Chrome(service=Service(f"{paths['CHROMEDRIVER_PATH']}"), options=options)
@@ -39,22 +41,10 @@ for topic in topics:
 
         difficulty = "no sweat" if difficulty_rating < 1666 else "think different" if difficulty_rating < 3333 else "back-breaking"
 
-        test_cases = {}
         input_output = browser.find_element(By.CLASS_NAME, "MarkdownPreview_values__container__sPYcw").find_elements(By.CLASS_NAME, "MarkdownPreview_values__1TjK6")
 
-        browser.implicitly_wait(2)
-        input_vals = input_output[0].find_element(By.TAG_NAME, "pre").text
-        output_vals = input_output[1].find_element(By.TAG_NAME, "pre").text
+        input_vals = input_output[0].find_element(By.TAG_NAME, "pre").get_attribute("innerHTML")
+        output_vals = input_output[1].find_element(By.TAG_NAME, "pre").get_attribute("innerHTML")
 
-        print(input_vals)
-        print("#######")
-        print(output_vals)
-
-        # add_topic(topic)
-        # add_to_db(problem_name, problem_statement, difficulty, topic, test_cases)
-        # add_to_db(problem_name, problem_statement, "easy", topic, {"test":"case"})
-
-
-        break
-
-    break
+        add_topic(topic)
+        add_to_db(problem_name, problem_statement, difficulty, topic, {"input": input_vals, "output": output_vals})
