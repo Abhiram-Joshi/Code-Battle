@@ -1,0 +1,40 @@
+.categories-body {
+    background-color: #000;
+    padding: 10% 10% 10% 10% !important;  
+    font-family: Montserrat !important;
+    margin-right: 0px !important;
+}
+
+.heading1{
+    color: #E6E6E6;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 60px;
+}
+
+.category{
+    background-color:#E6E6E6;
+    margin-left: 5%;
+    margin-top: 3%;
+    border-radius: 12px;
+    padding: 10px 0;
+    text-align: center;
+}
+
+.categories{
+    margin-top: 5%; 
+}
+
+.icons{
+    height: 50% !important;
+    width: auto;
+}
+
+.padding0{
+    padding: 0 !important;
+}
+
+.no-border{
+    border: transparent !important;
+    background-color: transparent;
+}

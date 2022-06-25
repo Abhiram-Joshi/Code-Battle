@@ -1,0 +1,47 @@
+.section2{
+    padding: 5% 0 0 5% !important;  
+    font-family: Montserrat !important;
+    background-color: #3E065F;
+}
+
+.sec3txt{
+    padding:5% 5% !important;
+    font-size: 24px;
+}
+
+.sec2main{
+    margin-right: 5%;
+}
+
+.txt2{
+    font-weight: bold !important;
+    margin: 50px 0 50px 0;
+    color: #e6e6e6;
+    text-align: center;
+}
+
+.img3{
+    margin-top: 8%;
+    z-index: 5;
+}
+
+.heading2{
+    color: #E6E6E6;
+    font-weight: bolder;
+    text-align: center;
+    font-size: 60px;
+}
+
+.footer{
+    display: flex;
+    align-items: flex-end;
+    margin-top: 15%;
+    justify-content: flex-end !important;
+    background-color: #3E065F !important;
+}
+
+.wave {   
+    width: 100% ;
+    z-index: 2;
+    position: absolute;
+} 

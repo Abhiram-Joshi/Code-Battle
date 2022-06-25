@@ -1,0 +1,13 @@
+.leaderboard-left{
+    background-color:#E6E6E6;
+}
+
+.leaderboard-right{
+    background-color:#D9D9D9;
+}
+
+.leaderboard{
+    margin-top: 10%;
+    text-align: center;
+    border-radius: 12px;
+}

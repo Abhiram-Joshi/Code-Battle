@@ -1,0 +1,26 @@
+.vert {
+    border: 2px solid #00adb5;
+    height: 30rem;
+    align-self: center;
+  } 
+
+  .signupbody >div >h2{
+    font-size: 40px !important;
+    margin-bottom: 10%;
+    margin-top: -5% !important;
+  } 
+
+  .foot {
+    display: flex;
+    padding: 0 10%;
+    margin-top: 3%;
+    text-align: center; 
+  } 
+
+  .signupbody{
+  background-color: black;
+  padding: 12% 5% 5% 10% !important;  
+  font-family: Montserrat !important;
+  margin-right: 0px !important;
+  color: #D191FF !important;
+  }
