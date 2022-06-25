@@ -1,8 +1,8 @@
 const Question = require('../models/question');
 
-exports.getQuestion = (req, res) => {
-    const topic = req.body.topic;
-    const difficulty = req.body.difficulty;
+exports.getQuestion = (topic, difficulty) => {
+    // const topic = req.body.topic;
+    // const difficulty = req.body.difficulty;
 
     var random;
     Question.countDocuments({ topic: topic, difficulty: difficulty }, (err, count) => {
