@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
-exports.createUser = (req, res, next) => {
+exports.createUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const uuid = req.body.uuid;
