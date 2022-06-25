@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
 
-exports.createUser = (req, res) => {
+exports.createUser = async (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
     const uuid = req.body.uuid;
@@ -17,7 +17,8 @@ exports.createUser = (req, res) => {
             uuid: uuid,
             isOAuth: isOAuth,
         });
-        user.save();
+        
+        await user.save();
         
         res.status(201).json({
             status: "success",

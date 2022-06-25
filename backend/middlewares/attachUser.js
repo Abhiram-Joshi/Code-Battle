@@ -1,9 +1,9 @@
 const User = require("../models/user");
 
 const attachUser = (req, res, next) => {
-    const uuid = req.body.uuid;
+    const email = req.body.email;
 
-    User.findOne({ uuid: uuid }).then((user) => {
+    User.findOne({ email: email }).then((user) => {
         req.user = user;
         next();
     });
