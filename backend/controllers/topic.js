@@ -5,12 +5,14 @@ exports.getAllTopics = (req, res) => {
         .then(topics => {
             res.status(200).json({
                 status: "success",
+                message: "Topics fetched successfully",
                 data: topics
             });
         }).catch(err => {
             res.status(500).json({
                 status: "error",
-                message: err.message
+                message: err.message,
+                data: null,
             });
         });
 };
