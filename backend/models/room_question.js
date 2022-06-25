@@ -2,16 +2,16 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const roomQuestionScema = new Schema({
-    roomId: {
+const roomQuestionSchema = new Schema({
+    roomName: {
         type: String,
         required: true
     },
-    questionId: {
+    questionID: {
         type: Schema.Types.ObjectId,
         ref: "question",
         required: true
     }
 });
 
-module.exports = mongoose.model("roomQuestion", roomQuestionScema);
+module.exports = mongoose.model("roomQuestion", roomQuestionSchema);
