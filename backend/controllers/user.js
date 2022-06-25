@@ -14,7 +14,7 @@ exports.createUser = (req, res) => {
         let user = new User({
             email: email,
             password: (isOAuth==false) ? hashedPassword : null,
-            uuid: (isOAuth==true) ? uuid : null,
+            uuid: uuid,
             isOAuth: isOAuth,
         });
         user.save();
@@ -22,12 +22,16 @@ exports.createUser = (req, res) => {
         res.status(201).json({
             status: "success",
             message: "User created successfuly",
+            data: {
+                email: email,
+            }
         });
     }
     catch(err) {
         res.status(409).json({
             status: "error",
             message: err.message,
+            data: null,
         })
     }
 };
