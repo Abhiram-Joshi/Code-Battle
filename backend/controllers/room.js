@@ -1,9 +1,10 @@
 const { getQuestion } = require('./question');
 const RoomQuestion = require('../models/room_question');
+const Question = require('../models/question');
 const topic = require('../models/topic');
 
 // Socket functions
-const joinRoom = async (io, socket, callback) => {
+const joinRoom = (io, socket, callback) => {
     const topic = socket.request._query['topic'];
     const difficulty = socket.request._query['difficulty'];
     
@@ -14,10 +15,11 @@ const joinRoom = async (io, socket, callback) => {
 
     socket.join(room);
 
-    const questionID = await RoomQuestion.findOne({ roomName: room }).questionID;
-    const question = await Question.findOne({ _id: questionID });
-
-    callback(question);
+    RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
+        Question.findById(roomQuestion.questionID).then(question => {
+            console.log(callback(question));
+        })
+    });
 }
 
 const leaveRoom = (io, socket) => {
@@ -43,7 +45,7 @@ const roomSocket = (io) => {
     io.on("connection", (socket) => {
 
         // Join room
-        socket.on("joinRoom", () => {
+        socket.on("joinRoom", (callback) => {
             joinRoom(io, socket, callback);
         });
 
