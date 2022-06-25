@@ -25,7 +25,7 @@ app.use("/topic", attachUser, topicRouter);
 // Database connection
 mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@code-battle.sju91.mongodb.net/Code-Battle?retryWrites=true&w=majority`).then(() => {
     const server = app.listen(3000);
-    const io = require("socket.io")(server);
+    const io = require("socket.io")(server, {cors: {origin: "*"}});
     roomSocket(io);
 }).catch(err => {
     console.log(err);
