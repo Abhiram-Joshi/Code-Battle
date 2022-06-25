@@ -1,0 +1,3 @@
+const getRoomQuestion = (req, res) => {
+    
+}
