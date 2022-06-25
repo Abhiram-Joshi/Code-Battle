@@ -13,7 +13,7 @@ const joinRoom = (io, socket) => {
     socket.join(room);
 }
 
-const leaveRoom = (socket) => {
+const leaveRoom = (io, socket) => {
     io.use((socket, next) => {
         socket.data.topic = null;
         socket.data.difficulty = null;
@@ -37,7 +37,7 @@ const roomSocket = (io) => {
 
 
 
-        socket.on("disconnect", (socket) => { leaveRoom(socket); });
+        socket.on("disconnect", (socket) => { leaveRoom(io, socket); });
     });
 }
 
