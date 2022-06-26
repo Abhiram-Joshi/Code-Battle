@@ -5,7 +5,8 @@ import img1 from "../../images/Group 74.svg";
 import img2 from "../../images/Group 76.svg";
 import img3 from "../../images/Group 75.svg";
 import img_but from "../../images/Group 78.svg"; 
-import io from "socket.io-client";
+
+import socket from "../../utils/socket";
 import cookie from "react-cookies"; 
 
 
@@ -14,41 +15,11 @@ const Room = () => {
     const navigate = useNavigate();
     const category = cookie.load("category");  
 
-    const [ques, setQues] = useState("");
+    // const [difficulty, setDifficulty] = useState("");
 
-    let initialRender = true;
-
-    useEffect(() => {
-      // if(initialRender){
-      //   initialRender = false;
-      // } else{
-      //   // cookie.save("ques", ques, { path: "/" });
-      //   console.log(ques);
-      // }
-      // localStorage.setItem('ques',ques);
-        // cookie.save("ques", ques, { path: "/" });
-    }, [ques]);
-
-    // function joinroomeasy()
-    // {   
-    //     var socket = io.connect('http://885f-2401-4900-1c00-5b7-cd65-c6e2-c250-abb.ngrok.io/', { query: 'category='+category+'&var2='+'no sweat'});
-    //     socket.emit("joinRoom");
-    //     navigate('/editor'); 
-    // }
-
-    // function joinroommoderate()
-    // {   
-    //     var socket = io.connect('http://885f-2401-4900-1c00-5b7-cd65-c6e2-c250-abb.ngrok.io/', { query: 'category='+category+'&var2='+'think different'});
-    //     socket.emit("joinRoom");
-    //     navigate('/editor'); 
-    // }
-
-    // function joinroomdifficult()
-    // {   
-    //     var socket = io.connect('http://885f-2401-4900-1c00-5b7-cd65-c6e2-c250-abb.ngrok.io/', { query: {topic:category,difficulty:'back-breaking'}});
-    //     socket.emit("joinRoom");
-    //     navigate('/editor'); 
-    // }
+    // useEffect(()=> {
+    //   cookie.save("difficulty", difficulty, { path: "/" });  
+    // },[difficulty])
 
   return (
     <div className="categories-body">
@@ -60,8 +31,9 @@ const Room = () => {
       <div className="col-lg-3 level">
             <img className="card_img" variant="top" src={img1} />
             <div className="room-tag"><button className="no-border" onClick={async() => {
-                var socket = io.connect('http://f14d-2401-4900-1c00-5b7-c8d0-5480-8ab8-8d91.ngrok.io/', { query: {topic:category,difficulty:'no sweat'}});
-                await socket.emit("joinRoom", (response) => {console.log(response.stmt); 
+              // setDifficulty('no-sweat');
+                cookie.save("difficulty", "no-sweat", { path: "/" });  
+                await socket.emit("joinRoom",  {topic:category,difficulty:'no sweat'}, (response) => {console.log(response.stmt); 
                   localStorage.setItem('ques',response.stmt); 
                 });
                 navigate('/editor'); 
@@ -71,13 +43,27 @@ const Room = () => {
         </div>
       <div className="col-lg-3 level">
             <img className="card_img" variant="top" src={img2} />
-            <div className="room-tag"><button className="no-border" >
+            <div className="room-tag"><button className="no-border" onClick={async() => {
+              // setDifficulty('think different');
+              cookie.save("difficulty", "think-different", { path: "/" });  
+                await socket.emit("joinRoom", { query: {topic:category,difficulty:'think different'}}, (response) => {console.log(response.stmt); 
+                  localStorage.setItem('ques',response.stmt); 
+                });
+                navigate('/editor'); 
+              }}>
                 <h5>Moderate</h5>
             </button></div>
         </div>
       <div className="col-lg-3 level">
             <img className="card_img" variant="top" src={img3} />
-            <div className="room-tag"><button className="no-border"  >
+            <div className="room-tag"><button className="no-border" onClick={async() => {
+              // setDifficulty('back-breaking');
+              cookie.save("difficulty", "back-breaking", { path: "/" });  
+                await socket.emit("joinRoom", { query: {topic:category,difficulty:'back-breaking'}}, (response) => {console.log(response.stmt); 
+                  localStorage.setItem('ques',response.stmt); 
+                });
+                navigate('/editor'); 
+              }} >
             <h5>Difficult</h5>
         </button></div>
        </div>

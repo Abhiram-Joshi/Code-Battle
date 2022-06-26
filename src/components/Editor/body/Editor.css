@@ -42,3 +42,21 @@
     font-weight: bolder !important;
     color: #e6e6e6 !important; 
 }
+
+.error{
+    width: 80%;
+    background-color: #f69697;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 20px;
+    border-radius: 12px;
+}
+
+.pass{
+    width: 80%;
+    background-color:green;
+    margin-left: 10%;
+    margin-top: 5%;
+    padding: 20px;
+    border-radius: 12px;
+}

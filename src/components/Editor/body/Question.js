@@ -1,9 +1,13 @@
+import { useEffect, useState } from "react";
 import cookie from "react-cookies"; 
 
-const Question = () => {
+const Question = () => 
+{ 
+    const [ques, setQues] = useState("");
 
-    // const ques = cookie.load("question");  
-    const ques = localStorage.getItem("ques"); 
+    useEffect(()=> {
+        setQues(localStorage.getItem("ques")); 
+    },[])
 
     return(
         <> 

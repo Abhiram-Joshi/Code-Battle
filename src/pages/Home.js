@@ -5,9 +5,9 @@ import Section2 from '../components/Home/section2/section2';
 const Home = () => {
 return (
     <>
-    <Navbar />
-    <Section1 />
-    <Section2 /> 
+        <Navbar />
+        <Section1 />
+        <Section2 /> 
     </>
 );
 };
