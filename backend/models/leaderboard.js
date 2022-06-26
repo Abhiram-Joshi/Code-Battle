@@ -11,6 +11,7 @@ const leaderboardSchema = new Schema({
     categoryName: {
         type: String,
         required: true,
+        default: "overall"
     },
     points: {
         type: Number,
