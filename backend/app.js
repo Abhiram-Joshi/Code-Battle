@@ -12,6 +12,7 @@ const attachUser = require("./middlewares/attachUser");
 const roomSocket = require("./controllers/room");
 
 const app = express();
+const server = require('http').createServer(app);
 
 // Middlewares
 app.use(cors());
@@ -24,8 +25,9 @@ app.use("/topic", attachUser, topicRouter);
 
 // Database connection
 mongoose.connect(`mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@code-battle.sju91.mongodb.net/Code-Battle?retryWrites=true&w=majority`).then(() => {
-    const server = app.listen(3000);
+    // const server = app.listen(3000);
     const io = require("socket.io")(server, {cors: {origin: "*"}});
+    server.listen(3000);
     roomSocket(io);
 }).catch(err => {
     console.log(err);
