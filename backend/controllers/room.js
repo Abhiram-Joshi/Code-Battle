@@ -57,43 +57,61 @@ const compileCode = (io, socket) => {
     const language = socket.request._query['language'];
     const version = socket.request._query['version'];
     const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
-    console.log(roomName);
 
     RoomQuestion.findOne({ roomName: roomName }).then(roomQuestion => {
         Question.findById(roomQuestion.questionID).then(question => {
             
             // Jdoodle Compiler API call here
-            const requestOptions = {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                data: {
-                    "script": code,
-                    "language": language,
-                    "stdin": "",
-                    "versionIndex": version,
-                    "clientId": process.env.JDOOLDLE_CLIENT_ID,
-                    "clientSecret": process.env.JDOOLDLE_CLIENT_SECRET,
-                }
+            var program = {
+                script : code,
+                language: language,
+                versionIndex: version,
+                stdin: question.test_cases.input,
+                clientId: process.env.JDOODLE_CLIENT_ID,
+                clientSecret:process.env.JDOODLE_CLIENT_SECRET
             };
+            request({
+                url: 'https://api.jdoodle.com/v1/execute',
+                method: "POST",
+                json: program
+            },
+            async function(error, response, body) {
 
-            axios.post("https://api.jdoodle.com/v1/execute", requestOptions).then(response => {
-                console.log(response);
-            }).catch(err => {
-                console.log(err);
+                compilerOutput = response.body.output;
+                expectedOutput = question.test_cases.output;
+
+                if (compilerOutput == expectedOutput) {
+
+                    const multiplier = (socket.data.difficulty == "no sweat") ? 1 : ((socket.data.difficulty == "think different") ? 1.5 : 2);
+                    const points = Math.ceil((time/20) * multiplier) + 1;
+                    // Update leaderboard
+                    await Leaderboard.updateOne({ email: email }, { categoryName: socket.data.topic, $inc: { points: points } }, { upsert: true });
+
+                    // Send response event
+                    io.to(roomName).emit("compileResult", {
+                        status: "success",
+                        message: "Correct Answer",
+                        data: {
+                            details: compilerOutput,
+                            email: email,
+                            points: points,
+                        }
+                    });
+                }
+                else
+                {
+                    // Send response event
+                    io.to(roomName).emit("compileResult", {
+                        status: "error",
+                        message: "Incorrect Answer",
+                        data: {
+                            details: compilerOutput,
+                            email: email,
+                            points: 0,
+                        }
+                    });
+                }
             });
-
-            // All test cases passed
-            if (allTestCasesPassed) {
-                // Determining points based on timer and difficulty
-                const multiplier = (socket.data.difficulty == "no sweat") ? 1 : ((socket.data.difficulty == "think different") ? 1.5 : 2);
-                const points = Math.ceil((time/20) * multiplier) + 1;
-                
-                // Update leaderboard
-                await Leaderboard.updateOne({ email: email }, { categoryName: socket.data.topic, $inc: { points: points } }, { upsert: true });
-            }
-            // Emit status to client (success/failure)
         })
     })
 }
