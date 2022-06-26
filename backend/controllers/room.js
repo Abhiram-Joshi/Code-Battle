@@ -60,13 +60,15 @@ const compileCode = (io, socket, config) => {
 
     RoomQuestion.findOne({ roomName: roomName }).then(roomQuestion => {
         Question.findById(roomQuestion.questionID).then(question => {
-            
+            // console.log("Code: "+code);
+            // console.log(question);
+            // console.log("Input: "+question.test_cases[0].input);
             // Jdoodle Compiler API call here
             var program = {
                 script : code,
                 language: language,
                 versionIndex: version,
-                stdin: question.test_cases.input,
+                stdin: question.test_cases[0].input,
                 clientId: process.env.JDOODLE_CLIENT_ID,
                 clientSecret:process.env.JDOODLE_CLIENT_SECRET
             };
@@ -76,9 +78,8 @@ const compileCode = (io, socket, config) => {
                 json: program
             },
             async function(error, response, body) {
-
-                compilerOutput = response.body.output;
-                expectedOutput = question.test_cases.output;
+                compilerOutput = (!response.body.output) ? "<No output>" : response.body.output;
+                expectedOutput = question.test_cases[0]["output"];
 
                 if (compilerOutput == expectedOutput) {
 
