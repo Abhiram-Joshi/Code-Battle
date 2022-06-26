@@ -1,0 +1,74 @@
+.navbar {
+  font-size: 1.25em;
+  padding: 1% 5% 1% 5% !important;
+  background-color: #3E065F; 
+  font-family: Montserrat;
+  box-shadow: 5px 4px 5px #000;
+} 
+
+.nav-link {
+  display: flex !important;
+  align-items: center !important;
+}
+
+.nav-center{
+margin-left: 30%;
+font-style: italic;
+}
+
+.nav-item:hover , .nav-item:active{
+  font-weight: bold;
+  color:#E6E6E6;
+}
+
+.navbar-heading {
+  color: #E6E6E6; 
+}
+
+a.disabled {
+  pointer-events: none; 
+}
+
+.logo- {
+  max-width: 70%;
+}
+
+.logo-margin {
+  margin-right: 8%;
+}
+
+.ml{
+  margin-left: 40px;
+}
+
+.button1 {
+  background-color: #E6E6E6 !important ;
+  font-weight: bolder !important;
+  color: #3E065F !important;
+}
+
+.button2 {
+  background-color: transparent;
+  font-weight: bold !important;
+  color:#E6E6E6;
+}
+
+.button:focus , .button:hover{ 
+  outline: none !important;
+} 
+
+.navbar-right{
+  margin-left: 30%;
+  background: transparent !important;
+}
+
+.logoutBtn{ 
+  height:40px !important;
+  width:auto;
+  background-color: transparent !important;
+}
+
+.logout-btn{
+  background-color: transparent !important;
+  border: none;
+}
