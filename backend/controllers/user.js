@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
+const { createLeaderboardUser } = require("./leaderboard"); 
 
 exports.createUser = async (req, res) => {
     const email = req.body.email;
@@ -19,6 +20,7 @@ exports.createUser = async (req, res) => {
         });
         
         await user.save();
+        await createLeaderboardUser(email, "overall");
         
         res.status(201).json({
             status: "success",
