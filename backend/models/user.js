@@ -17,16 +17,6 @@ const userSchema = new Schema({
     isOAuth: {
         type: Boolean,
         required: true,
-    },
-    points: {
-        type: Integer,
-        required: true,
-        default: 0,
-    },
-    weeklyPoints: {
-        type: Integer,
-        required: true,
-        default: 0,
     }
 });
 
