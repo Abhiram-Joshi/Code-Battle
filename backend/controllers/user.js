@@ -1,7 +1,6 @@
 const bcrypt = require("bcrypt");
 const User = require("../models/user");
-const { createLeaderboardUser } = require("./leaderboard"); 
-const Leaderboard = require('../models/leaderboard');
+const { createLeaderboardUser } = require("./leaderboard");
 
 exports.createUser = async (req, res) => {
     const email = req.body.email;
