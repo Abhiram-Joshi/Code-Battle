@@ -13,14 +13,17 @@ exports.createUser = async (req, res) => {
         var hashedPassword = bcrypt.hashSync(password, 10);
     }
     try {
-        let user = new User({
-            email: email,
-            password: (isOAuth==false) ? hashedPassword : null,
-            uuid: uuid,
-            isOAuth: isOAuth,
-        });
         
-        await user.save();
+        await User.updateOne(
+            { email: email },
+            {
+                email: email,
+                password: (isOAuth==false) ? hashedPassword : null,
+                uuid: uuid,
+                isOAuth: isOAuth,
+            },
+            { upsert: true },
+        );
         await createLeaderboardUser(email, "overall");
 
         res.status(201).json({
@@ -32,6 +35,7 @@ exports.createUser = async (req, res) => {
         });
     }
     catch(err) {
+        console.log(err);
         res.status(409).json({
             status: "error",
             message: err.message,
