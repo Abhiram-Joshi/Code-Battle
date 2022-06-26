@@ -57,9 +57,8 @@ const compileCode = (io, socket) => {
             if (allTestCasesPassed) {
                 // Determining points based on timer and difficulty
                 const multiplier = (socket.data.difficulty == "no sweat") ? 1 : ((socket.data.difficulty == "think different") ? 1.5 : 2);
-                const points = Math.ceil(time/60);
+                const points = Math.ceil((time/20) * multiplier) + 1;
                 
-
                 // Update leaderboard
                 await Leaderboard.updateOne({ email: email }, { categoryName: socket.data.topic, $inc: { points: points } }, { upsert: true });
             }
