@@ -8,11 +8,11 @@ const topic = require('../models/topic');
 const Leaderboard = require("../models/leaderboard");
 
 // Socket functions
-const joinRoom = (io, socket) => {
+const joinRoom = (io, socket, topic_difficulty) => {
 
     return new Promise((resolve, reject) => {
-        const topic = socket.request._query['topic'];
-        const difficulty = socket.request._query['difficulty'];
+        const topic = topic_difficulty['topic'];
+        const difficulty = topic_difficulty['difficulty'];
         
         const room = `${topic}_${difficulty}`;
         
@@ -127,9 +127,8 @@ const roomSocket = (io) => {
     io.on("connection", (socket) => {
 
         // Join room
-        socket.on("joinRoom", async (callback) => {
-            const question = await joinRoom(io, socket);
-            console.log(question);
+        socket.on("joinRoom", async (topic_difficulty, callback) => {
+            const question = await joinRoom(io, socket, topic_difficulty);
             callback(question);
         });
 
