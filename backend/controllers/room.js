@@ -58,9 +58,14 @@ const compileCode = (io, socket) => {
                 // Determining points based on timer and difficulty
                 const multiplier = (socket.data.difficulty == "no sweat") ? 1 : ((socket.data.difficulty == "think different") ? 1.5 : 2);
                 const points = Math.ceil((time/20) * multiplier) + 1;
+                const regEx = new RegExp(`${socket.data.topic}|overall`, "i");
                 
                 // Update leaderboard
-                await Leaderboard.updateOne({ email: email }, { categoryName: socket.data.topic, $inc: { points: points } }, { upsert: true });
+                await Leaderboard.updateMany(
+                    { email: email, categoryName: { $regex: regEx } },
+                    { email: email, categoryName: socket.data.topic, $inc: { points: points } },
+                    { upsert: true }
+                );
             }
             // Emit status to client (success/failure)
         })
