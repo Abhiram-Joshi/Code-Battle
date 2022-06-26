@@ -14,7 +14,7 @@ const section2 = () => {
             <img src={img2} className="container img3" alt="timemator" />
           </div>
           <div className="col-lg-6 sec3txt">
-            <p className="txt2">Indian Society for Technical Education or ISTE is a national, professional, non-profit making Society registered under the Societies Registration Act of 1860. The major objective of ISTE is to assist and contribute to the production and development of top-quality professional engineers and technicians required by industries and other organizations.</p>
+            <p className="txt2">Code Battle is a platform where users can chose their category and difficulty level for the coding questions, code and compete with their opponents in different rooms and make their way on the top of the leaderboard</p>
           </div>
         </div>
         </div>

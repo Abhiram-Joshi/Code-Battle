@@ -1,5 +1,4 @@
-import React from 'react';
-import { useNavigate } from "react-router-dom";
+import React from 'react'; 
 import logo from "../../../images/Logo.svg";
 import cookie from "react-cookies";
 import { logOut } from "../../../services/firebase";
@@ -7,8 +6,7 @@ import logout_icon from "../../../images/log_icon.svg";
 import "./Navbar.css";
 
 const Navbar = () => {
-
-  const navigate = useNavigate();
+ 
   const email = cookie.load("key");
 
   return (

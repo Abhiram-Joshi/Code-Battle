@@ -10,10 +10,7 @@ const Editor = () => {
     const [code, setCode] = useState(""); 
     const [error, setError] = useState(false); 
     const [pass, setPass] = useState(false); 
-
-    let input="";
-    const category = cookie.load("category");  
-    const difficulty = cookie.load("difficulty");  
+   
     const email = cookie.load("key");  
 
 
@@ -30,11 +27,11 @@ const Editor = () => {
 
     const listener = (...args) => {
         console.log(args[0]);
-        if(args[0].status=="error")
+        if(args[0].status==="error")
         {
             setError(args[0].data.details);
         }
-        if(args[0].status=="success")
+        if(args[0].status==="success")
         {
             setPass(true);
         }

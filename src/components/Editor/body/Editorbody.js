@@ -1,9 +1,6 @@
 import Question from "./Question";
 import Editor from "./Editor";
-import "./Editor.css";
-import io from "socket.io-client";
-
-import { useEffect } from "react";
+import "./Editor.css"; 
 import Timer from "./Timer";
 
 const Editorbody = () => {

@@ -7,9 +7,7 @@ const section1 = () => {
         <div className="row section1 " id="home">
             <div className="col-lg-5">
                 <h1 className="extra-bold">Code Battle</h1> 
-                <h3 className="txt">Lorem ipsum dolor sit amet, consectetur adipiscing elit</h3>
-                <button className="nav-link btn3" href="#otherresources">Go to the Editor
-                </button>
+                <h3 className="txt">"Join the Coding battle, it's live!"</h3> 
             </div>
             <div className="col-lg-6">
             <img src={img1} className="container img1" alt="timemator"/>
