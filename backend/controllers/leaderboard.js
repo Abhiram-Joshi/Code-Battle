@@ -39,3 +39,22 @@ exports.getTopicLeaderboard = async (req, res) => {
         });
     }
 }
+
+exports.getUserPoints = async (req, res) => {
+    const { email, categoryName } = req.body;
+
+    try {
+        const user = await Leaderboard.findOne({ email, categoryName });
+        res.status(200).json({
+            status: "success",
+            message: "User points",
+            data: user.points,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message,
+            data: null,
+        });
+    }
+}
