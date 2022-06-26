@@ -31,7 +31,7 @@ const leaveRoom = (io, socket) => {
     })
 }
 
-const startRound = async (socket, io) => {
+const startRound = async (io, socket) => {
     const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
     
     const question = await getQuestion(socket.data.topic, socket.data.difficulty);
@@ -39,6 +39,28 @@ const startRound = async (socket, io) => {
     await RoomQuestion.updateOne({ roomName: roomName }, { questionID: question._id, roomName: roomName }, { upsert: true });
     
     io.to(roomName).emit("newRound", question);
+}
+
+const compileCode = (io, socket) => {
+    const code = socket.request._query['code'];
+    const time = socket.request._query['time'];
+    const email = socket.request._query['email'];
+    const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
+
+    RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
+        Question.findById(roomQuestion.questionID).then(question => {
+            // Jdoodle Compiler API call here
+
+            // All test cases passed
+            User.findOne({ email: email }).then(user => {
+                // Increase users points here based on time taken
+                
+            })
+
+            // Emit status to client (success/failure)
+
+        })
+    })
 }
 
 const roomSocket = (io) => {
@@ -51,8 +73,13 @@ const roomSocket = (io) => {
 
         // Start round
         socket.on("startRound", () => {
-            startRound(socket, io);
+            startRound(io, socket);
         });
+
+        // Compile Code
+        socket.on("compileCode", () => {
+            compileCode(io, socket);
+        })
 
         socket.on("disconnect", (socket) => { leaveRoom(io, socket); });
     });
