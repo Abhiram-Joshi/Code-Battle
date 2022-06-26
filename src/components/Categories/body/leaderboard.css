@@ -9,5 +9,11 @@
 .leaderboard{
     margin-top: 10%;
     text-align: center;
+    border-radius: 12px; 
+    border-bottom: 1px solid #000;
+}
+
+.leaderboard-item{ 
+    text-align: center;
     border-radius: 12px;
 }

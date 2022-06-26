@@ -4,6 +4,7 @@ import "./Editor.css";
 import io from "socket.io-client";
 
 import { useEffect } from "react";
+import Timer from "./Timer";
 
 const Editorbody = () => {
 
@@ -16,6 +17,7 @@ const Editorbody = () => {
         <div className="editor">
         <div>
           <h2 className="heading3 extra-bold">Editor</h2> 
+          <Timer />
           <Question />
           <Editor />
         </div>
