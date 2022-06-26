@@ -1,3 +1,6 @@
+require('dotenv').config();
+const request = require('request');
+
 const { getQuestion } = require('./question');
 const RoomQuestion = require('../models/room_question');
 const Question = require('../models/question');
@@ -5,21 +8,26 @@ const topic = require('../models/topic');
 const Leaderboard = require("../models/leaderboard");
 
 // Socket functions
-const joinRoom = (io, socket, callback) => {
-    const topic = socket.request._query['topic'];
-    const difficulty = socket.request._query['difficulty'];
-    
-    const room = `${topic}_${difficulty}`;
-    
-    socket.data.topic = topic;
-    socket.data.difficulty = difficulty;
+const joinRoom = (io, socket) => {
 
-    socket.join(room);
+    return new Promise((resolve, reject) => {
+        const topic = socket.request._query['topic'];
+        const difficulty = socket.request._query['difficulty'];
+        
+        const room = `${topic}_${difficulty}`;
+        
+        socket.data.topic = topic;
+        socket.data.difficulty = difficulty;
 
-    RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
-        Question.findById(roomQuestion.questionID).then(question => {
-            console.log(callback(question));
-        })
+        socket.join(room);
+
+        RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
+            Question.findById(roomQuestion.questionID).then(question => {
+                resolve(question);
+            }).catch(err => {
+                reject(err);
+            });
+        });
     });
 }
 
@@ -46,12 +54,35 @@ const compileCode = (io, socket) => {
     const code = socket.request._query['code'];
     const time = socket.request._query['time'];
     const email = socket.request._query['email'];
+    const language = socket.request._query['language'];
+    const version = socket.request._query['version'];
     const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
+    console.log(roomName);
 
-    RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
-        Question.findById(roomQuestion.questionID).then(async question => {
-            // Jdoodle Compiler API call here
+    RoomQuestion.findOne({ roomName: roomName }).then(roomQuestion => {
+        Question.findById(roomQuestion.questionID).then(question => {
             
+            // Jdoodle Compiler API call here
+            const requestOptions = {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                data: {
+                    "script": code,
+                    "language": language,
+                    "stdin": "",
+                    "versionIndex": version,
+                    "clientId": process.env.JDOOLDLE_CLIENT_ID,
+                    "clientSecret": process.env.JDOOLDLE_CLIENT_SECRET,
+                }
+            };
+
+            axios.post("https://api.jdoodle.com/v1/execute", requestOptions).then(response => {
+                console.log(response);
+            }).catch(err => {
+                console.log(err);
+            });
 
             // All test cases passed
             if (allTestCasesPassed) {
@@ -71,8 +102,10 @@ const roomSocket = (io) => {
     io.on("connection", (socket) => {
 
         // Join room
-        socket.on("joinRoom", (callback) => {
-            joinRoom(io, socket, callback);
+        socket.on("joinRoom", async (callback) => {
+            const question = await joinRoom(io, socket);
+            console.log(question);
+            callback(question);
         });
 
         // Start round
