@@ -6,6 +6,7 @@ const cors = require("cors");
 const userRouter = require("./routers/user");
 const topicRouter = require("./routers/topic");
 const questionRouter = require("./routers/question");
+const leaderboardRouter = require("./routers/leaderboard");
 
 const attachUser = require("./middlewares/attachUser");
 
@@ -21,6 +22,7 @@ app.use(express.json());
 // Routes
 app.use("/user", userRouter);
 app.use("/question", questionRouter);
+app.use("/lb", leaderboardRouter);
 app.use("/topic", attachUser, topicRouter);
 
 // Database connection
