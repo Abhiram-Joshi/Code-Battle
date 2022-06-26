@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const leaderboardSchema = new Schema({
-    userID: {
+    email: {
         type: email,
         required: true,
         unique: true,
     },
-    categoryID: {
+    categoryName: {
         type: String,
         required: true,
     },
