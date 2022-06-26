@@ -1,8 +1,14 @@
-
+import cookie from "react-cookies"; 
 
 const Question = () => {
+
+    // const ques = cookie.load("question");  
+    const ques = localStorage.getItem("ques"); 
+
     return(
-        <h5>Question</h5>
+        <> 
+            <div dangerouslySetInnerHTML={{__html: ques}}></div>
+        </>
     )
 }
 

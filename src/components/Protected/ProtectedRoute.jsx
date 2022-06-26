@@ -1,17 +1,13 @@
 import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { Route, Navigate, Routes } from "react-router-dom";
 import cookie from "react-cookies";
 
-const ProtectedRoute = ({ component: Component, redirect, ...rest }) => {
+const ProtectedRoute = ({ children}) => {
     const key = cookie.load("key");
-    return (
-        <Route
-            {...rest}
-            render={(props) =>
-                key ? <Component {...props} /> : <Navigate to={redirect} />
-            }
-        />
-    );
+    if (!key) {
+        return <Navigate to="/" replace />;
+        }
+        return children; 
 };
 
 export default ProtectedRoute;

@@ -23,25 +23,27 @@ const Editor = () => {
     function onCompile(){
         const requestOptions = { 
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ 
-                clientId: '9b471671c20a488487d4371855706bd3',
-                clientSecret: 'da454c814f62d08137b5d8632d53112c6258bf3572a668ad2cda430ad68b49a1',
-                script:{code},
-                stdin:{input},
-                language:{language},
+            headers: { 'Content-Type': 'application/json',
+            'client-secret': 'c17d9b082be32cebc07556a662bea86e9bc4efd9',
+         },
+            body: JSON.stringify({  
+                'source':{code},
+                'input':{input},
+                'lang':'JAVA',  
+                'memory_limit': 243232,
+                'time_limit': 5,  
             })
         };
-        fetch('https://api.jdoodle.com/v1/execute', requestOptions)
+        fetch('https://api.hackerearth.com/v4/partner/code-evaluation/submissions/', requestOptions)
             .then(response => response.json())
             .then(response=> console.log(response));
     }
       
     // Render editor
     return(
-    <div>
-        <h2>Editor</h2>
-        <select name="selectList" id="selectList" onChange={getLanguage}>
+    <div className="editor-body"> 
+        <h5 className="language-heading"><b>Choose language</b></h5>
+        <select name="selectList" id="selectList" onChange={getLanguage} className="languages">
             <option value="javascript">Choose</option> 
             <option value="javascript">javascript</option> 
             <option value="java">java</option> 
@@ -59,7 +61,7 @@ const Editor = () => {
             theme="vs-dark"
         />
 
-        <button onClick={onCompile}>Compile</button>
+        <button className="compile-btn" onClick={onCompile}>Compile</button>
         </div>
     );
 }

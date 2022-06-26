@@ -31,7 +31,7 @@ export const signInWithGoogle = () => {
         password: null,
         isOAuth: true,
       }).then((response) => {
-        cookie.save("key", res.user.email, { path: "/" });
+        cookie.save("key", response.data.email, { path: "/" });
         const data = response.data;
         return data;
       })

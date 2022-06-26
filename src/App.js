@@ -21,10 +21,10 @@ function App() {
        <Routes>
          <Route exact path="/" element={<Home />} /> 
          <Route path="/login" element={<Login/>} /> 
-         <Route path="/signup" element={<Signup/>} />  
-         <Route path="/categories" element={<Categories />} />
-         <Route path="/rooms" element={<Rooms />} />
-         <Route path="/editor" element={<Editor />} />
+         <Route path="/signup" element={<Signup/>} />   
+         <Route path="/rooms" element={<ProtectedRoute ><Rooms /></ProtectedRoute>} />
+         <Route path="/editor" element={<Editor />} /> 
+         <Route path="/categories" element={<ProtectedRoute ><Categories /></ProtectedRoute>} />
        </Routes>
        </AuthProvider>
      </Router>
