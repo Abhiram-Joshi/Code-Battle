@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const leaderboardSchema = new Schema({
     email: {
-        type: email,
+        type: String,
         required: true,
         unique: true,
     },
