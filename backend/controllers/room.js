@@ -50,12 +50,12 @@ const startRound = async (io, socket) => {
     io.to(roomName).emit("newRound", question);
 }
 
-const compileCode = (io, socket) => {
-    const code = socket.request._query['code'];
-    const time = socket.request._query['time'];
-    const email = socket.request._query['email'];
-    const language = socket.request._query['language'];
-    const version = socket.request._query['version'];
+const compileCode = (io, socket, config) => {
+    const code = config['code'];
+    const time = config['time'];
+    const email = config['email'];
+    const language = config['language'];
+    const version = config['version'];
     const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
 
     RoomQuestion.findOne({ roomName: roomName }).then(roomQuestion => {
@@ -138,8 +138,8 @@ const roomSocket = (io) => {
         });
 
         // Compile Code
-        socket.on("compileCode", () => {
-            compileCode(io, socket);
+        socket.on("compileCode", (config) => {
+            compileCode(io, socket, config);
         })
 
         socket.on("disconnect", (socket) => { leaveRoom(io, socket); });
