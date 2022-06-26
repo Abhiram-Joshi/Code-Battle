@@ -2,6 +2,7 @@ const { getQuestion } = require('./question');
 const RoomQuestion = require('../models/room_question');
 const Question = require('../models/question');
 const topic = require('../models/topic');
+const Leaderboard = require("../models/leaderboard");
 
 // Socket functions
 const joinRoom = (io, socket, callback) => {
@@ -48,18 +49,21 @@ const compileCode = (io, socket) => {
     const roomName = `${socket.data.topic}_${socket.data.difficulty}`;
 
     RoomQuestion.findOne({ roomName: room }).then(roomQuestion => {
-        Question.findById(roomQuestion.questionID).then(question => {
+        Question.findById(roomQuestion.questionID).then(async question => {
             // Jdoodle Compiler API call here
             
 
             // All test cases passed
-            User.findOne({ email: email }).then(user => {
-                // Increase users points here based on time taken
+            if (allTestCasesPassed) {
+                // Determining points based on timer and difficulty
+                const multiplier = (socket.data.difficulty == "no sweat") ? 1 : ((socket.data.difficulty == "think different") ? 1.5 : 2);
+                const points = Math.ceil(time/60);
+                
 
-            })
-
+                // Update leaderboard
+                await Leaderboard.updateOne({ email: email }, { categoryName: socket.data.topic, $inc: { points: points } }, { upsert: true });
+            }
             // Emit status to client (success/failure)
-
         })
     })
 }
