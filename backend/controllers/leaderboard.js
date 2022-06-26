@@ -22,7 +22,7 @@ exports.getOverallLeaderboard = async (req, res) => {
 }
 
 exports.getTopicLeaderboard = async (req, res) => {
-    const topic = req.query.topic;
+    const topic = req.body.topic;
 
     try {
         const leaderboard = await Leaderboard.find({ categoryName: topic }).sort({ points: -1 }).limit(5);
