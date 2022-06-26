@@ -22,6 +22,11 @@ const userSchema = new Schema({
         type: Integer,
         required: true,
         default: 0,
+    },
+    weeklyPoints: {
+        type: Integer,
+        required: true,
+        default: 0,
     }
 });
 
