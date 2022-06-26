@@ -20,3 +20,22 @@ exports.getOverallLeaderboard = async (req, res) => {
         });
     }
 }
+
+exports.getTopicLeaderboard = async (req, res) => {
+    const topic = req.query.topic;
+
+    try {
+        const leaderboard = await Leaderboard.find({ categoryName: topic }).sort({ points: -1 }).limit(5);
+        res.status(200).json({
+            status: "success",
+            message: "Topic leaderboard",
+            data: leaderboard,
+        });
+    } catch (err) {
+        res.status(500).json({
+            status: "error",
+            message: err.message,
+            data: null,
+        });
+    }
+}
